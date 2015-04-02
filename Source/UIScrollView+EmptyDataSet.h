@@ -40,6 +40,8 @@
  @discussion The data source must adopt the DZNEmptyDataSetSource protocol. The data source is not retained. All data source methods are optional.
  */
 @protocol DZNEmptyDataSetSource <NSObject>
+@required
+
 @optional
 
 /**
@@ -69,14 +71,6 @@
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView;
 
 /**
- Asks the data source for a tint color of the image dataset. Default is nil.
- 
- @param scrollView A scrollView subclass object informing the data source.
- @return A color to tint the image of the dataset.
- */
-- (UIColor *)imageTintColorForEmptyDataSet:(UIScrollView *)scrollView;
-
-/**
  Asks the data source for the title to be used for the specified button state.
  The dataset uses a fixed font style by default, if no attributes are set. If you want a different font style, return a attributed string.
  
@@ -96,11 +90,13 @@
  */
 - (UIImage *)buttonBackgroundImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state;
 
+- (void)configureButtonAppearance:(UIButton *)button;
+
 /**
  Asks the data source for the background color of the dataset. Default is clear color.
  
  @param scrollView A scrollView subclass object informing the data source.
- @return A color to be applied to the dataset background view.
+ @return An color to be applied to the dataset background view.
  */
 - (UIColor *)backgroundColorForEmptyDataSet:(UIScrollView *)scrollView;
 
@@ -116,6 +112,7 @@
 
 /**
  Asks the data source for a offset for vertical and horizontal alignment of the content. Default is CGPointZero.
+ @discussion If called when using a tableView, a value sum between the header and footer view's height will be added to any value you assign to vertical offset.
  
  @param scrollView A scrollView subclass object informing the delegate.
  @return The offset for vertical and horizontal alignment.
@@ -140,6 +137,7 @@
  @discussion All delegate methods are optional. Use this delegate for receiving action callbacks.
  */
 @protocol DZNEmptyDataSetDelegate <NSObject>
+@required
 @optional
 
 /**
